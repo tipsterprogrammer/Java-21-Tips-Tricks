@@ -1,0 +1,239 @@
+/* *** 1. Use Pattern Matching for Cleaner Type Handling *** */
+// Pre-Java21 Code
+public class HelloWorld{
+
+     public static void main(String []args){
+        System.out.println("Hello, World!");
+        
+        Object obj = getSomeObject();
+        if (obj instanceof String) {
+            String s = (String) obj;
+            System.out.println("It's a string: " + s);
+        } else if (obj instanceof Integer) {
+            Integer i = (Integer) obj;
+            System.out.println("It's an integer: " + i);
+        }
+    }
+    
+    public static Object getSomeObject(){
+         return "APPLE";
+        //return 190;
+    }
+}
+
+// Java 21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        // Object obj = getSomeObject();
+        switch (getSomeObject()) {
+        case Integer i -> System.out.println("It's an Integer: " + i);
+        case String s  -> System.out.println("It's a String: " + s);
+        default        -> System.out.println("Unknown type");
+        }
+    }
+
+    public static Object getSomeObject() {
+        return "APPLE";
+        //return 190;
+    }
+}
+
+/* *** 2. Take Advantage of Switch Expressions *** */
+// Pre-Java21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        int day = 2;
+        int result;
+        switch (day) {
+            case 1:
+                result = 10;
+                break;
+            case 2:
+                result = 20;
+                break;
+            default:
+                result = 30;
+        }
+
+        System.out.println("Result: "+ result);
+    }
+}
+
+// Java 21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        int day = 1;
+        int result = switch (day) {
+            case 1 -> 10;
+            case 2 -> 20;
+            default -> 30;
+        };
+
+        System.out.println("Result: "+ result);
+    }
+}
+
+/* *** 3. Eliminate Break Statements with Arrow Syntax *** */
+// Pre-Java21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        int day = 2;
+        switch (day) {
+            case 1:
+                System.out.println("Monday");
+                break;
+            case 2:
+                System.out.println("Tuesday");
+                break;
+            default:
+                System.out.println("Unknown day");
+        }
+    }
+}
+
+// Java 21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        int day = 2;
+        switch (day) {
+            case 1 -> System.out.println("Monday");
+            case 2 -> System.out.println("Tuesday");
+            default -> System.out.println("Unknown day");
+        }
+    }
+}
+
+/* *** 4. Simplify Null Handling in Switch *** */
+// Pre-Java21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        Object obj = getSomeObject();
+
+        if (obj == null) {
+            System.out.println("It's null");
+        } else {
+            switch (obj.getClass().getSimpleName()) {
+                case "String":
+                    System.out.println("It's a String");
+                    break;
+                case "Integer":
+                    System.out.println("It's an Integer");
+                    break;
+                default:
+                    System.out.println("Unknown type");
+            }
+        }
+    }
+
+    public static Object getSomeObject(){
+        return 22;        
+    }
+}
+
+// Java 21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        switch (getSomeObject()) {
+            case null -> System.out.println("It's null");
+            case String s -> System.out.println("It's a String");
+            case Integer i -> System.out.println("It's an Integer");
+            default -> System.out.println("Unknown type");
+        }
+    }
+
+    public static Object getSomeObject(){
+        return 22;        
+    }
+}
+
+/* *** 5. Use Switch for Complex Conditions *** */
+// Pre-Java21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        Object shape = getShape();
+        if (shape instanceof Circle) {
+            Circle c = (Circle) shape;
+            System.out.println("Circle with radius: " + c.getRadius());
+        } else if (shape instanceof Rectangle) {
+            Rectangle r = (Rectangle) shape;
+            System.out.println("Rectangle with height: " + r.getHeight() + " and width: " + r.getWidth());
+        }
+    }
+
+    public static Object getShape(){
+        return new Rectangle();        
+    }
+
+    public static class Circle{
+        public Object getRadius(){
+            return 100;
+        }
+    }
+
+    public static class Rectangle {
+        public Object getHeight(){
+            return 10;
+        }
+        public Object getWidth(){
+            return 20;
+        }        
+    }
+}
+
+// Java 21 Code
+public class HelloWorld {
+
+    public static void main(String []args) {
+        System.out.println("Hello, World!");
+
+        Object shape = getShape();
+        switch (shape) {
+            case Circle c -> System.out.println("Circle with radius: " + c.getRadius());
+            case Rectangle r -> System.out.println("Rectangle with height: " + r.getHeight() + " and width: " + r.getWidth());
+            default -> System.out.println("Unknown shape");
+        }
+    }
+
+    public static Object getShape(){
+        return new Circle();        
+    }
+
+    public static class Circle{
+        public Object getRadius(){
+            return 100;
+        }
+    }
+
+    public static class Rectangle {
+        public Object getHeight(){
+            return 10;
+        }
+        public Object getWidth(){
+            return 20;
+        }        
+    }
+}
